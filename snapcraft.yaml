@@ -1,0 +1,31 @@
+name: kroniax # you probably want to 'snapcraft register <name>'
+base: core22 # the base snap is the execution environment for this snap
+version: '1.0.0' # just for humans, typically '1.2+git' or '1.3.2'
+title: Kroniax Adventure
+summary: A fast-paced arcade game where reflexes and strategy collide! # 79 char long summary
+description: |
+  Embark on an exhilarating journey through time in Kroniax, a fast-paced arcade game where reflexes and strategy collide! 
+  Navigate intricate mazes, avoid deadly obstacles, and harness the power of time manipulation to conquer each challenging level.
+
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+
+apps:
+  kroniax:
+    command: bin/kroniax-bin
+    extensions: [gnome]
+    plugs:
+      - network
+      - unity7
+      - network-status
+
+layout:
+  /usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/webkit2gtk-4.1:
+    bind: $SNAP/gnome-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0
+
+parts:
+  kroniax:
+    plugin: dump
+    source: .
+    organize:
+      kroniax-bin: bin/
